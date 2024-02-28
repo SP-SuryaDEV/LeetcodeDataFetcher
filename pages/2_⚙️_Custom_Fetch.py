@@ -6,7 +6,7 @@ st.write('# **Custom Data Fetch**')
 
 file = st.file_uploader("Upload your file here")
 
-st.write(' The Csv file should contain Username , Reg Number,Year,Domain , Section , Department , Mail ID , Mobile Number')
+st.write(' The Csv file should contain Name ,  Username , Reg Number,Year,Domain , Section , Department , Mail ID , Mobile Number')
 
 if file:
 
