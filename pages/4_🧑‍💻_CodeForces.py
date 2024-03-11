@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
-from Endpoints import returnQuery
+from Endpoints import codeForces
 
-st.write('# **Leetcode Data Fetch**')
-
-file = pd.read_csv('.\data\All Year.csv')
-
+st.write('# **CodeForces Data Fetch**')
+up = st.file_uploader("ASdf")
+file = pd.read_csv(up)
 
 filtered_data = file.copy()
     
@@ -21,20 +20,22 @@ section = st.selectbox('Section' , sections, index=0)
 
 
 if year:
-    if year != 'All':
+    if year == 'All':
+        filtered_data = file.copy()
+    else:
         filtered_data = filtered_data[filtered_data['Year'] == year]
 
-if department:
-    if department != 'All':
-        filtered_data = filtered_data[filtered_data['Department'] == department]
+    if department:
+        if department != 'All':
+            filtered_data = filtered_data[filtered_data['Department'] == department]
     
-if section:
-    if section != 'All':
-        filtered_data = filtered_data[filtered_data['Section'] == section]
+        if section:
+            if section != 'All':
+                filtered_data = filtered_data[filtered_data['Section'] == section]
                 
-if domain:
-    if domain != 'All':
-        filtered_data = filtered_data[filtered_data['Domain'] == domain]
+            if domain:
+                if domain != 'All':
+                    filtered_data = filtered_data[filtered_data['Domain'] == domain]
 
 
 if st.button('Fetch'):
@@ -54,11 +55,13 @@ if st.button('Fetch'):
         phone = str(row['Mobile Number']).strip()
         user = str(row['Username']).strip()
         
-        problemsDict, flag = returnQuery(user, name, regno, year, dept, section, domain, mail, phone)
+        problemsDict, flag = codeForces(user)
         
         if flag:
+            problemsDict['Name'] = name
             data.append(problemsDict)
         else:
+            problemsDict['Name'] = name
             error_fetching.append(problemsDict)
             print(f'{user} not found')
 
@@ -77,6 +80,9 @@ if st.button('Fetch'):
     
     st.session_state['data'] = dataframe
     st.write(st.session_state.get('data'))
+
+
+
 
 
 if  file.empty:
