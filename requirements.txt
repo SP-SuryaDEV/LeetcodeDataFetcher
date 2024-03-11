@@ -2,4 +2,6 @@ streamlit
 backoff
 pandas
 numpy
+re
+bs4
 
