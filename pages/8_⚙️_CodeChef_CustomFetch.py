@@ -4,6 +4,7 @@ from Endpoints import codechef
 
 st.write('# **CodeChef Data Fetch**')
 up = st.file_uploader("Upload a csv file with codechef_username as a column")
+st.write(' The Csv file should contain Name ,  CODECHEF ID , Reg Number,Year,Domain , Section , Department , Mail ID , Mobile Number')
 
 file = None
 if up:

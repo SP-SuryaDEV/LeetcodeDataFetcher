@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
-from Endpoints import codeForces
+from Endpoints import codechef
 
-st.write('# **CodeForces Data Fetch**')
-up = st.file_uploader("ASdf")
-file = pd.read_csv(up)
+st.write('# **CodeChef Data Fetch**')
+up = pd.read_csv('.\data\model.csv')
 
+
+file = up
 filtered_data = file.copy()
     
 departments = ["All"] + list(file['Department'].unique())
@@ -20,27 +21,25 @@ section = st.selectbox('Section' , sections, index=0)
 
 
 if year:
-    if year == 'All':
-        filtered_data = file.copy()
-    else:
+    if year != 'All':
         filtered_data = filtered_data[filtered_data['Year'] == year]
 
-    if department:
-        if department != 'All':
-            filtered_data = filtered_data[filtered_data['Department'] == department]
+if department:
+    if department != 'All':
+        filtered_data = filtered_data[filtered_data['Department'] == department]
     
-        if section:
-            if section != 'All':
-                filtered_data = filtered_data[filtered_data['Section'] == section]
+if section:
+    if section != 'All':
+        filtered_data = filtered_data[filtered_data['Section'] == section]
                 
-            if domain:
-                if domain != 'All':
-                    filtered_data = filtered_data[filtered_data['Domain'] == domain]
+if domain:
+    if domain != 'All':
+        filtered_data = filtered_data[filtered_data['Domain'] == domain]
 
 
 if st.button('Fetch'):
     df = filtered_data
-  
+
     data = []
     error_fetching = []
 
@@ -53,37 +52,47 @@ if st.button('Fetch'):
         domain = str(row['Domain']).strip()
         mail = str(row['Mail ID']).strip()
         phone = str(row['Mobile Number']).strip()
-        user = str(row['Username']).strip()
+
+        user = str(row['CODECHEF ID']).strip()
         
-        problemsDict, flag = codeForces(user)
+        problemsDict, flag = codechef(user)
         
         if flag:
             problemsDict['Name'] = name
+            regno = str(row['Reg Number']).strip()
+            year = str(row['Year']).strip()
+            dept = str(row['Department']).strip()
+            section = str(row['Section']).strip()
+            domain = str(row['Domain']).strip()
+            mail = str(row['Mail ID']).strip()
+            phone = str(row['Mobile Number']).strip()
+
             data.append(problemsDict)
         else:
             problemsDict['Name'] = name
+            regno = str(row['Reg Number']).strip()
+            year = str(row['Year']).strip()
+            dept = str(row['Department']).strip()
+            section = str(row['Section']).strip()
+            domain = str(row['Domain']).strip()
+            mail = str(row['Mail ID']).strip()
+            phone = str(row['Mobile Number']).strip()
+            
             error_fetching.append(problemsDict)
-            print(f'{user} not found')
+            
+    
 
     dataframe = pd.DataFrame()
-
+    
     if data:    
         dataframe = pd.DataFrame(data)
         dataframe.set_index('Name', inplace=True)
         
     if error_fetching:
         error = pd.DataFrame(error_fetching)
-        error.set_index('Name', inplace=True)
         st.write('## **Failed to Fetch**')
         st.write(error)
     
     
     st.session_state['data'] = dataframe
     st.write(st.session_state.get('data'))
-
-
-
-
-
-if  file.empty:
-    st.session_state['data'] = pd.DataFrame()
