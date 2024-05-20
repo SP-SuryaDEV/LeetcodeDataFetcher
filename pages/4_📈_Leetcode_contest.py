@@ -14,10 +14,12 @@ completeData = {}
 
 with st.sidebar:
     uploader = st.file_uploader('Upload any custom files here.. Else All years (II and III) will be choosen by default')
-    with open('temp.csv', 'w') as file:
-        file.write(uploader)
-    st.session_state.data = pd.read_csv('temp.csv')
-    os.remove('temp.csv')
+
+    if uploader:
+        with open('temp.csv', 'w') as file:
+            file.write(uploader)
+        st.session_state.data = pd.read_csv('temp.csv')
+        os.remove('temp.csv')
     
 
 if not st.session_state.get('data'):
