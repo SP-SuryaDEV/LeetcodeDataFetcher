@@ -7,7 +7,7 @@ import pandas as pd
 import os
 
 contestName = st.text_input("Enter the name of the contest:")
-
+print('Hello world')
 class ForbiddenError(Exception):
     pass
 completeData = {}
