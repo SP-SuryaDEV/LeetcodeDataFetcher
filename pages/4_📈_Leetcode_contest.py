@@ -22,7 +22,7 @@ with st.sidebar:
         os.remove('temp.csv')
     
 
-if not st.session_state.get('data'):
+if type(st.session_state.get('data')) != pd.DataFrame:
     st.session_state.data = pd.read_csv('./data.csv')
 
 @backoff.on_exception(backoff.expo, ForbiddenError, max_tries=20)
