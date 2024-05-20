@@ -5,9 +5,10 @@ import backoff
 import json
 import pandas as pd
 import os
+import logging
 
 contestName = st.text_input("Enter the name of the contest:")
-print('Hello world')
+logging.log('Hello world')
 class ForbiddenError(Exception):
     pass
 completeData = {}
