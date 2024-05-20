@@ -8,7 +8,6 @@ import os
 import logging
 
 contestName = st.text_input("Enter the name of the contest:")
-logging.info(msg='Hello world')
 class ForbiddenError(Exception):
     pass
 completeData = {}
@@ -84,7 +83,7 @@ if contestName:
 
                     completeData[userName] = {'rank':rank,"score":score, "problemsSolved" : problemsSolved}
                 
-                print(pageNumber)
+                st.write(pageNumber)
                 pageNumber += 1
             elif response.status_code == 404:
                 st.error('Contest not found')
@@ -95,7 +94,12 @@ if contestName:
                 print('There might be an error . Try again after some time')
                 
 
-            
+        st.download_button(
+            label="Download data as CSV",
+            data=csv.to_csv().encode("utf-8"),
+            file_name=f"{contestName}.csv",
+            mime="text/csv",
+        )
 
         st.write('Fetching complete')
 
