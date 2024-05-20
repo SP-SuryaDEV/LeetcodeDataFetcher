@@ -8,7 +8,7 @@ import os
 import logging
 
 contestName = st.text_input("Enter the name of the contest:")
-logging.log(msg='Hello world')
+logging.info(msg='Hello world')
 class ForbiddenError(Exception):
     pass
 completeData = {}
