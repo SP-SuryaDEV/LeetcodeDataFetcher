@@ -35,7 +35,7 @@ if contestName:
 
     if  st.button('fetch'):
     
-        pageNumber = 400
+        pageNumber = 1
         completeData = {}
 
 
@@ -58,8 +58,7 @@ if contestName:
                 if(len(submissions) == 0):
                     break
 
-                if pageNumber == 420:
-                    break
+            
 
                 for i in range(len(submissions)):
                     
