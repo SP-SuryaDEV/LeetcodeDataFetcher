@@ -54,7 +54,7 @@ if contestName:
 
 
         while(True):
-            
+            st.write(pageNumber)
             response = fetch(contestName,pageNumber)
 
             if response.status_code == 200:
@@ -80,10 +80,10 @@ if contestName:
                     rank = total[i]['rank']+1
                     score = total[i]['score']
                     problemsSolved = len(submissions[i])
-
                     completeData[userName] = {'rank':rank,"score":score, "problemsSolved" : problemsSolved}
+                    st.write(f'Fetched **{userName}**')
                 
-                st.write(pageNumber)
+                
                 pageNumber += 1
             elif response.status_code == 404:
                 st.error('Contest not found')
@@ -101,7 +101,7 @@ if contestName:
             mime="text/csv",
         )
 
-        st.write('Fetching complete')
+        st.success('Fetching complete')
 
         csv = st.session_state.data
         
