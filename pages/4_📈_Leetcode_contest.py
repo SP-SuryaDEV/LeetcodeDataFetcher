@@ -4,13 +4,25 @@ import requests
 import backoff
 import json
 import pandas as pd
+import os
 
 contestName = st.text_input("Enter the name of the contest:")
-
 
 class ForbiddenError(Exception):
     pass
 completeData = {}
+
+with st.sidebar:
+    uploader = st.file_uploader('Upload any custom files here.. Else All years (II and III) will be choosen by default')
+    with open('temp.csv', 'w') as file:
+        file.write(uploader)
+    st.session_state.data = pd.read_csv('temp.csv')
+    os.remove('temp.csv')
+    
+
+if not st.session_state.get('data'):
+    st.session_state.data = pd.read_csv('./data.csv')
+
 @backoff.on_exception(backoff.expo, ForbiddenError, max_tries=20)
 def fetch(contestName,pageNumber):
 
@@ -84,7 +96,7 @@ if contestName:
 
         st.write('Fetching complete')
 
-        csv = pd.read_csv('.\data.csv')
+        csv = st.session_state.data
         
         csv['Rank'] = ''
         csv['ProbCount'] = ''
