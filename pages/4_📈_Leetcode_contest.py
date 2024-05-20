@@ -85,7 +85,7 @@ if contestName:
 
         st.write('Fetching complete')
 
-        csv = pd.read_csv('.\data\All Year.csv')
+        csv = pd.read_csv('.\data.csv')
         
         csv['Rank'] = ''
         csv['ProbCount'] = ''
